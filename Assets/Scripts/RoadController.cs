@@ -17,7 +17,7 @@ public class RoadController : MonoBehaviour
      
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
         // 모든 가스 아이템 비활성
         foreach (var gasObject in gasObjects)

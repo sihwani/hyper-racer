@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -23,8 +24,9 @@ public class CarController : MonoBehaviour
         while (true)
         {
             gas -= 10;
-            if (gas <= 0) break;
             yield return new WaitForSeconds(1f);
+            if (gas <= 0) break;
+            
         }
         // 게임 종료
         GameManager.Instance.EndGame();
