@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Time.timeScale = 10f;
         // 도로, 자동차 생성
         // 게임 시작
         InitializeRoadPool();
@@ -101,6 +100,8 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        // _roadIndex 초기화
+        _roadIndex = 0;
         // 도로 생성
         SpawnRoad(Vector3.zero);
         //자동차 생성
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
         
         // 게임 상태를 Play로 변경
         GameState = State.Play;
+        InitializeRoadPool();
 
     }
 
