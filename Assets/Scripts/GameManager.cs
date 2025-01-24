@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MoveButton leftMoveButton;
     [SerializeField] private MoveButton rightMoveButton;
     [SerializeField] private TMP_Text gasText;
+    [SerializeField] private GameObject startPannelPrefab;
+    [SerializeField] private GameObject endPannelPrefab;
+    [SerializeField] private Transform canvasTrasform;
 
     // 자동차 
     private CarController _carController;
@@ -62,6 +65,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        Time.timeScale = 10f;
         // 도로, 자동차 생성
         // 게임 시작
         InitializeRoadPool();
@@ -69,8 +73,8 @@ public class GameManager : MonoBehaviour
         // 게임 상태 Start로 변경
         GameState = State.Start;
         
-        StartGame();
-
+        // Start Pannel 표시
+        ShowStartPannel();
     }
 
     private void Update()
@@ -95,7 +99,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void StartGame()
+    private void StartGame()
     {
         // 도로 생성
         SpawnRoad(Vector3.zero);
@@ -113,6 +117,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        // 게임 상태 변경
         GameState = State.End;
         
         //자동차 제거
@@ -124,7 +129,10 @@ public class GameManager : MonoBehaviour
             activeRoad.SetActive(false);
         }
         
-        // TODO: 게임 오버 패널 표시
+        
+        // 게임 오버 패널 표시
+
+        ShowEndPannel();
     }
     
     // 도로 생성 및 관리
@@ -180,7 +188,36 @@ public class GameManager : MonoBehaviour
     }
     
     #endregion
+    
+    #region UI
 
+    private void ShowStartPannel()
+    
+    {
+        StartPannelController startPannelController =
+            Instantiate(startPannelPrefab, canvasTrasform).GetComponent<StartPannelController>();
+        startPannelController.OnStartButtonClick += () =>
+        {
+            StartGame();
+            Destroy(startPannelController.gameObject);
+        };
+    }
+    
+    // 게임 오버 화면 표시
+    void ShowEndPannel()
+    {
+        StartPannelController endPannelController =
+            Instantiate(endPannelPrefab, canvasTrasform).GetComponent<StartPannelController>();
+        endPannelController.OnStartButtonClick += () =>
+        {
+            Destroy(endPannelController.gameObject);
+            ShowStartPannel();
+        };
+    }
+    
+    
+    #endregion 도로 생성 및 관리
+    
     
     
 }
